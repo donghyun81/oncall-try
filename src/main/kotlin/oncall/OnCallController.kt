@@ -30,7 +30,7 @@ class OnCallController {
         holidayWorkers: List<Worker>,
         month: Month,
         startDayOfWeek: DayOfWeek
-    ) = EmergencyMonth(makeEmergencyDays(weekDayWorkers, holidayWorkers, month, startDayOfWeek))
+    ) = EmergencyMonth(month, makeEmergencyDays(weekDayWorkers, holidayWorkers, month, startDayOfWeek))
 
     private fun makeEmergencyDays(
         weekDayWorkers: List<Worker>,
