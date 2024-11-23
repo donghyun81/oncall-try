@@ -51,8 +51,9 @@ class OnCallController {
                 currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
                 EmergencyDay(day, dayOfWeek, holidayWorkers[holidayWorkersIndex])
             } else {
-                val weekDayWorkersIndex = currentHolyDayWorkersIndex % holidayWorkers.size
+                val weekDayWorkersIndex = currentWeekDayWorkersIndex % holidayWorkers.size
                 currentWeekDayWorkersIndex++
+                currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
                 EmergencyDay(day, dayOfWeek, weekDayWorkers[weekDayWorkersIndex])
             }
         }
