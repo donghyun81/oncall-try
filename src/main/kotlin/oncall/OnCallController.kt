@@ -6,6 +6,7 @@ class OnCallController {
     fun run() {
         val (month, startDayOfWeek) = getEmergencyWorkDays()
         val weekDayWorkers = getWeekdayWorkers()
+        val holidayWorkers = getHolidayWorkers()
     }
 
     private fun getEmergencyWorkDays(): Pair<Int, String> {
@@ -20,4 +21,7 @@ class OnCallController {
     }
 
     private fun getWeekdayWorkers() = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
+
+    private fun getHolidayWorkers() = inputView.readHolidayWorker().split(",").map { Worker(it, true) }
+
 }
