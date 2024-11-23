@@ -21,5 +21,11 @@ enum class DayOfWeek(val text: String) {
             }
             return SUNDAY
         }
+
+        fun nextDayOfWeek(dayOfWeek: DayOfWeek): DayOfWeek {
+            val currentIndex = entries.indexOf(dayOfWeek)
+            val nextIndex = (currentIndex + 1) % entries.size
+            return entries[nextIndex]
+        }
     }
 }

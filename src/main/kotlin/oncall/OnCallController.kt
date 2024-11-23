@@ -7,7 +7,7 @@ class OnCallController {
         val (month, startDayOfWeek) = getEmergencyWorkDays()
         val weekDayWorkers = getWeekdayWorkers()
         val holidayWorkers = getHolidayWorkers()
-
+        val emergencyMonth = getEmergencyMonth(weekDayWorkers, holidayWorkers, month, startDayOfWeek)
     }
 
     private fun getEmergencyWorkDays(): Pair<Month, DayOfWeek> {
@@ -24,4 +24,35 @@ class OnCallController {
     private fun getWeekdayWorkers() = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
 
     private fun getHolidayWorkers() = inputView.readHolidayWorker().split(",").map { Worker(it, true) }
+
+    private fun getEmergencyMonth(
+        weekDayWorkers: List<Worker>,
+        holidayWorkers: List<Worker>,
+        month: Month,
+        startDayOfWeek: DayOfWeek
+    ) = EmergencyMonth(makeEmergencyDays(weekDayWorkers, holidayWorkers, month, startDayOfWeek))
+
+    private fun makeEmergencyDays(
+        weekDayWorkers: List<Worker>,
+        holidayWorkers: List<Worker>,
+        month: Month,
+        startDayOfWeek: DayOfWeek
+    ): List<EmergencyDay> {
+        var currentDayOfWeek = startDayOfWeek
+        var currentWeekDayWorkersIndex = 0
+        var currentHolyDayWorkersIndex = 0
+        return month.days.map { day ->
+            val dayOfWeek = currentDayOfWeek
+            if (currentDayOfWeek.text == "토" || currentDayOfWeek.text == "일") {
+                val holidayWorkersIndex = currentHolyDayWorkersIndex % holidayWorkers.size
+                currentHolyDayWorkersIndex++
+                currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
+                EmergencyDay(day, dayOfWeek, holidayWorkers[holidayWorkersIndex])
+            } else {
+                val weekDayWorkersIndex = currentHolyDayWorkersIndex % holidayWorkers.size
+                currentWeekDayWorkersIndex++
+                EmergencyDay(day, dayOfWeek, weekDayWorkers[weekDayWorkersIndex])
+            }
+        }
+    }
 }
