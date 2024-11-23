@@ -2,12 +2,14 @@ package oncall
 
 class OnCallController {
     private val inputView = InputView()
+    private val outputView = OutputView()
 
     fun run() {
         val (month, startDayOfWeek) = getEmergencyWorkDays()
         val weekDayWorkers = getWeekdayWorkers()
         val holidayWorkers = getHolidayWorkers()
         val emergencyMonth = getEmergencyMonth(weekDayWorkers, holidayWorkers, month, startDayOfWeek)
+        outputView.printResult(emergencyMonth)
     }
 
     private fun getEmergencyWorkDays(): Pair<Month, DayOfWeek> {
