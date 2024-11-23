@@ -5,6 +5,7 @@ class OnCallController {
 
     fun run() {
         val (month, startDayOfWeek) = getEmergencyWorkDays()
+        val weekDayWorkers = getWeekdayWorkers()
     }
 
     private fun getEmergencyWorkDays(): Pair<Int, String> {
@@ -17,4 +18,6 @@ class OnCallController {
         require(startDayOfWeekInput in WEEK.entries.map { it.text }) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
         return Pair(emergencyMonth, startDayOfWeekInput)
     }
+
+    private fun getWeekdayWorkers() = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
 }
