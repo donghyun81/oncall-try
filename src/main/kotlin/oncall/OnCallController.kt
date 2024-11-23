@@ -25,9 +25,17 @@ class OnCallController {
         }
     }
 
-    private fun getWeekdayWorkers() = retryInput { inputView.readWeekdayWorker().split(",").map { Worker(it, false) } }
+    private fun getWeekdayWorkers() = retryInput {
+        val weekdayWorkers = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
+        require(weekdayWorkers.distinct().size == weekdayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        weekdayWorkers
+    }
 
-    private fun getHolidayWorkers() = retryInput { inputView.readHolidayWorker().split(",").map { Worker(it, true) } }
+    private fun getHolidayWorkers() = retryInput {
+        val holidayWorkers = inputView.readHolidayWorker().split(",").map { Worker(it, true) }
+        require(holidayWorkers.distinct().size == holidayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        holidayWorkers
+    }
 
     private fun getEmergencyMonth(
         weekDayWorkers: List<Worker>,
