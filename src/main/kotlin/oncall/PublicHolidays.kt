@@ -8,5 +8,11 @@ enum class PublicHolidays(val month: Int, val day: Int) {
     LIBERATION_DAY(8, 15),
     NATIONAL_FOUNDATION_DAY(10, 3),
     HANGUL_DAY(10, 9),
-    CHRISTMAS(12, 25)
+    CHRISTMAS(12, 25);
+
+    companion object {
+        fun containsPublicHolidays(month: Int, day: Int): Boolean {
+            return PublicHolidays.entries.any { month == it.month && day == it.day }
+        }
+    }
 }

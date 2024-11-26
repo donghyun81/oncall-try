@@ -66,11 +66,12 @@ class OnCallController {
         var currentHolyDayWorkersIndex = 0
         return month.days.map { day ->
             val dayOfWeek = currentDayOfWeek
-            if (currentDayOfWeek.text == "토" || currentDayOfWeek.text == "일") {
+            val isPublicHoliday = PublicHolidays.containsPublicHolidays(month.month, day)
+            if (currentDayOfWeek.text == "토" || currentDayOfWeek.text == "일" || isPublicHoliday) {
                 val holidayWorkersIndex = currentHolyDayWorkersIndex % holidayWorkers.size
                 currentHolyDayWorkersIndex++
                 currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
-                EmergencyDay(day, dayOfWeek, holidayWorkers[holidayWorkersIndex])
+                EmergencyDay(day, dayOfWeek, holidayWorkers[holidayWorkersIndex], isPublicHoliday)
             } else {
                 val weekDayWorkersIndex = currentWeekDayWorkersIndex % holidayWorkers.size
                 currentWeekDayWorkersIndex++

@@ -3,7 +3,11 @@ package oncall
 class OutputView {
 
     fun printResult(emergencyMonth: EmergencyMonth) {
-        emergencyMonth.emergencyDays.forEach { day ->
+        for (day in emergencyMonth.emergencyDays) {
+            if (day.isPublicDay) {
+                println("${emergencyMonth.month.month}월 ${day.date}일 ${day.dayOfWeek.text}(휴일) ${day.worker.name}")
+                continue
+            }
             println("${emergencyMonth.month.month}월 ${day.date}일 ${day.dayOfWeek.text} ${day.worker.name}")
         }
     }
