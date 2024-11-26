@@ -1,3 +1,3 @@
 package oncall
 
-class Worker(val name: String, val isDayOff: Boolean)
+data class Worker(val name: String)

@@ -26,7 +26,7 @@ class OnCallController {
     }
 
     private fun getWeekdayWorkers() = retryInput {
-        val weekdayWorkers = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
+        val weekdayWorkers = inputView.readWeekdayWorker().split(",").map { Worker(it) }
         require(weekdayWorkers.distinct().size == weekdayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
         require(weekdayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
         weekdayWorkers.forEach { worker ->
@@ -38,7 +38,7 @@ class OnCallController {
 
 
     private fun getHolidayWorkers() = retryInput {
-        val holidayWorkers = inputView.readHolidayWorker().split(",").map { Worker(it, true) }
+        val holidayWorkers = inputView.readHolidayWorker().split(",").map { Worker(it) }
         require(holidayWorkers.distinct().size == holidayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
         require(holidayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
         holidayWorkers.forEach { worker ->
@@ -67,16 +67,16 @@ class OnCallController {
         return month.days.map { day ->
             val dayOfWeek = currentDayOfWeek
             val isPublicHoliday = PublicHolidays.containsPublicHolidays(month.month, day)
-            if (currentDayOfWeek.text == "토" || currentDayOfWeek.text == "일" || isPublicHoliday) {
-                val holidayWorkersIndex = currentHolyDayWorkersIndex % holidayWorkers.size
+            if (currentDayOfWeek.isHoliday() || isPublicHoliday) {
+                val holidayWorker = holidayWorkers[currentHolyDayWorkersIndex % holidayWorkers.size]
                 currentHolyDayWorkersIndex++
                 currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
-                EmergencyDay(day, dayOfWeek, holidayWorkers[holidayWorkersIndex], isPublicHoliday)
+                EmergencyDay(day, dayOfWeek, holidayWorker, isPublicHoliday)
             } else {
-                val weekDayWorkersIndex = currentWeekDayWorkersIndex % holidayWorkers.size
+                val weekDayWorker = weekDayWorkers[currentWeekDayWorkersIndex % holidayWorkers.size]
                 currentWeekDayWorkersIndex++
                 currentDayOfWeek = DayOfWeek.nextDayOfWeek(currentDayOfWeek)
-                EmergencyDay(day, dayOfWeek, weekDayWorkers[weekDayWorkersIndex])
+                EmergencyDay(day, dayOfWeek, weekDayWorker)
             }
         }
     }

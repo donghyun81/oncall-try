@@ -9,6 +9,8 @@ enum class DayOfWeek(val text: String) {
     SATURDAY("토"),
     SUNDAY("일");
 
+    fun isHoliday() = this == SATURDAY || this == SUNDAY
+
     companion object {
         fun convertDayOfWeek(weekText: String): DayOfWeek {
             when (weekText) {
