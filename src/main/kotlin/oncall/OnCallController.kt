@@ -28,13 +28,23 @@ class OnCallController {
     private fun getWeekdayWorkers() = retryInput {
         val weekdayWorkers = inputView.readWeekdayWorker().split(",").map { Worker(it, false) }
         require(weekdayWorkers.distinct().size == weekdayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        require(weekdayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        weekdayWorkers.forEach { worker ->
+            require(worker.name.length <= 5) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+            worker.name.length
+        }
         weekdayWorkers
     }
 
-    
+
     private fun getHolidayWorkers() = retryInput {
         val holidayWorkers = inputView.readHolidayWorker().split(",").map { Worker(it, true) }
         require(holidayWorkers.distinct().size == holidayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        require(holidayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        holidayWorkers.forEach { worker ->
+            require(worker.name.length <= 5) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+            worker.name.length
+        }
         holidayWorkers
     }
 
