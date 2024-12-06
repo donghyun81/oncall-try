@@ -22,4 +22,14 @@ class InputView {
         }
         return weekDayWorkers
     }
+
+    fun readHolidayWorkers(): List<String> {
+        val holidayWorkers = Console.readLine().split(",")
+        require(holidayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        require(holidayWorkers.size == holidayWorkers.distinct().size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        holidayWorkers.forEach { worker ->
+            require(worker.length <= 5) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        }
+        return holidayWorkers
+    }
 }
