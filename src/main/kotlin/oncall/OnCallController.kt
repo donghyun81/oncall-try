@@ -18,9 +18,9 @@ class OnCallController {
             require(emergencyWorkDaysInput.size == 2) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
             val (emergencyMonthInput, startDayOfWeekInput) = emergencyWorkDaysInput
             val monthNumber =
-                requireNotNull(emergencyMonthInput.toIntOrNull()) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
-            require(monthNumber in 1..12) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
-            require(startDayOfWeekInput in DayOfWeek.entries.map { it.text }) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+                requireNotNull(emergencyMonthInput.toIntOrNull()) { "[ERROR] 비상 근무 월은 1에서 12의 정수를 입력해 주세요." }
+            require(monthNumber in 1..12) { "[ERROR] 비상 근무 월은 1에서 12의 정수를 입력해 주세요." }
+            require(startDayOfWeekInput in DayOfWeek.entries.map { it.text }) { "[ERROR] 요일은 월 화 수 목 금 토 일 만 입력해 주세요" }
             Pair(Month.convertMonth(monthNumber), DayOfWeek.convertDayOfWeek(startDayOfWeekInput))
         }
     }
@@ -28,9 +28,9 @@ class OnCallController {
     private fun getWeekdayWorkers() = retryInput {
         val weekdayWorkers = inputView.readWeekdayWorker().split(",").map { Worker(it) }
         require(weekdayWorkers.distinct().size == weekdayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
-        require(weekdayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        require(weekdayWorkers.size in 5..35) { "[ERROR] 비상 근무자는 최소 5명 최대 35명까지만 입력해 주세요." }
         weekdayWorkers.forEach { worker ->
-            require(worker.name.length <= 5) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+            require(worker.name.length in 1..5) { "[ERROR] 비상 근무자 닉네임은 1에서 5자리를 입력해 주세요." }
             worker.name.length
         }
         weekdayWorkers
@@ -40,9 +40,9 @@ class OnCallController {
     private fun getHolidayWorkers() = retryInput {
         val holidayWorkers = inputView.readHolidayWorker().split(",").map { Worker(it) }
         require(holidayWorkers.distinct().size == holidayWorkers.size) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
-        require(holidayWorkers.size in 5..35) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        require(holidayWorkers.size in 5..35) { "[ERROR] 비상 근무자는 최소 5명 최대 35명까지만 입력해 주세요." }
         holidayWorkers.forEach { worker ->
-            require(worker.name.length <= 5) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+            require(worker.name.length in 1..5) { "[ERROR] 비상 근무자 닉네임은 1에서 5자리를 입력해 주세요." }
             worker.name.length
         }
         holidayWorkers
