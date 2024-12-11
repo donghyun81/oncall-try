@@ -16,7 +16,7 @@ class WorkScheduleService(private val month: Month, private val startDayOfWeek: 
     }
 
     private fun moveNextDayOfWeek() {
-        val nextDayOfWeekIndex = DayOfWeek.entries.indexOfFirst { it == currentDayOfWeek } + 1 % 7
+        val nextDayOfWeekIndex = (DayOfWeek.entries.indexOfFirst { it == currentDayOfWeek } + 1) % 7
         currentDayOfWeek = DayOfWeek.entries[nextDayOfWeekIndex]
     }
 

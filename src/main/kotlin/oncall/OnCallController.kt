@@ -3,6 +3,7 @@ package oncall
 class OnCallController {
 
     private val inputView = InputView()
+    private val outputView = OutputView()
 
     fun run() {
         val (monthNumber, dayOfWeekUseName) = inputView.readMonthAndDayOfWeek()
@@ -10,6 +11,10 @@ class OnCallController {
         val startDayOfWeek = convertDayOfWeek(dayOfWeekUseName)
         val weekDayWorkers = inputView.readWeekDayWorkers()
         val holidayWorkers = inputView.readHolidayWorkers()
+        val workerService = WorkerService(weekDayWorkers, holidayWorkers)
+        val workScheduleService = WorkScheduleService(month, startDayOfWeek)
+        val emergencyDays = workScheduleService.getEmergencyDays(month, workerService)
+        outputView.printEmergencySchedule(month, emergencyDays)
     }
 
     private fun convertMonth(monthNumber: Int): Month {
