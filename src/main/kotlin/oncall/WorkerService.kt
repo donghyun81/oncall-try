@@ -17,6 +17,7 @@ class WorkerService(
             holidayWorkersQueue.add(worker)
             return worker
         }
+         
         val worker = extractWorker(weekDayWorkersQueue)
         weekDayWorkersQueue.add(worker)
         return worker
