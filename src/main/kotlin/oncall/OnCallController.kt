@@ -17,11 +17,11 @@ class OnCallController {
 
     private fun convertMonth(monthNumber: Int): Month {
         val month = Month.entries.find { it.number == monthNumber }
-        return requireNotNull(month) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        return requireNotNull(month) { Error.MONTH.getMessage() }
     }
 
     private fun convertDayOfWeek(dayOfWeekUseName: String): DayOfWeek {
         val dayOfWeek = DayOfWeek.entries.find { it.useName == dayOfWeekUseName }
-        return requireNotNull(dayOfWeek) { "[ERROR] 유효하지 않은 입력 값입니다. 다시 입력해 주세요." }
+        return requireNotNull(dayOfWeek) { Error.DAY_OF_WEEK.getMessage() }
     }
 }
