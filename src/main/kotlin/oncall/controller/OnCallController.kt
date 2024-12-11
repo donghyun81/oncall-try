@@ -2,6 +2,7 @@ package oncall.controller
 
 import oncall.common.DayOfWeek
 import oncall.common.Error
+import oncall.common.Guide
 import oncall.common.Month
 import oncall.domain.service.WorkScheduleService
 import oncall.domain.service.WorkerService
@@ -18,7 +19,7 @@ class OnCallController {
         val (monthNumber, dayOfWeekUseName) = retryInput { inputView.readMonthAndDayOfWeek() }
         val month = convertMonth(monthNumber)
         val startDayOfWeek = convertDayOfWeek(dayOfWeekUseName)
-        val workerService = retryInput { WorkerService(inputView.readWeekDayWorkers(), inputView.readHolidayWorkers()) }
+        val workerService = getWorkerService()
         val workScheduleService = WorkScheduleService(month, startDayOfWeek)
         val emergencyDays = workScheduleService.getEmergencyDays(month, workerService)
         outputView.printEmergencySchedule(month, emergencyDays)
@@ -32,5 +33,12 @@ class OnCallController {
     private fun convertDayOfWeek(dayOfWeekUseName: String): DayOfWeek {
         val dayOfWeek = DayOfWeek.entries.find { it.useName == dayOfWeekUseName }
         return requireNotNull(dayOfWeek) { Error.DAY_OF_WEEK.getMessage() }
+    }
+
+    private fun getWorkerService() = retryInput {
+        WorkerService(
+            inputView.readWorkers(Guide.READ_WEEKDAY_WORKERS.message),
+            inputView.readWorkers(Guide.READ_HOLIDAY_WORKER.message)
+        )
     }
 }

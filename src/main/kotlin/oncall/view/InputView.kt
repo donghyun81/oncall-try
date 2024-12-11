@@ -8,7 +8,7 @@ import oncall.common.Month
 
 class InputView {
     fun readMonthAndDayOfWeek(): Pair<Int, String> {
-        print(Guide.READ_MONTH_AND_DAT_OF_WEEK)
+        print(Guide.READ_MONTH_AND_DAT_OF_WEEK.message)
         val input = Console.readLine().split(",")
         require(input.size == 2) { Error.FORMAT.getMessage() }
         val (monthInput, dayOfWeek) = input
@@ -18,22 +18,12 @@ class InputView {
         return Pair(month, dayOfWeek)
     }
 
-    fun readWeekDayWorkers(): List<String> {
-        print(Guide.READ_WEEKDAY_WORKERS)
+    fun readWorkers(guideMessage: String): List<String> {
+        print(guideMessage)
         val workersName = Console.readLine().split(",")
         require(workersName.size == workersName.distinct().size) { Error.DUPLICATE.getMessage() }
         require(workersName.size in 5..35) { Error.WORKERS_COUNT.getMessage() }
         workersName.forEach { require(it.length <= 5) { Error.WORKER_NAME_LENGTH.getMessage() } }
-        return workersName
-    }
-
-    fun readHolidayWorkers(): List<String> {
-        print(Guide.READ_HOLIDAY_WORKER)
-        val workersName = Console.readLine().split(",")
-        require(workersName.size == workersName.distinct().size) { Error.DUPLICATE.getMessage() }
-        require(workersName.size in 5..35) { Error.WORKERS_COUNT.getMessage() }
-        workersName.forEach { require(it.length <= 5) { Error.WORKER_NAME_LENGTH.getMessage() } }
-        println()
         return workersName
     }
 }
