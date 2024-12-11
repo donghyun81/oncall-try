@@ -21,9 +21,6 @@ class InputView {
     fun readWorkers(guideMessage: String): List<String> {
         print(guideMessage)
         val workersName = Console.readLine().split(",")
-        require(workersName.size == workersName.distinct().size) { Error.DUPLICATE.getMessage() }
-        require(workersName.size in 5..35) { Error.WORKERS_COUNT.getMessage() }
-        workersName.forEach { require(it.length <= 5) { Error.WORKER_NAME_LENGTH.getMessage() } }
         return workersName
     }
 }

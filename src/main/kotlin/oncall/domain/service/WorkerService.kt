@@ -1,15 +1,27 @@
 package oncall.domain.service
 
+import oncall.common.Error
 import java.util.LinkedList
 
 class WorkerService(
-    private val weekDayWorkers: List<String>,
-    private val holidayWorkers: List<String>
+    initWeekDayWorkers: List<String>,
+    initHolidayWorkers: List<String>
 ) {
 
-    private val weekDayWorkersQueue = LinkedList(weekDayWorkers)
-    private val holidayWorkersQueue = LinkedList(holidayWorkers)
+    private val weekDayWorkersQueue = LinkedList(initWeekDayWorkers)
+    private val holidayWorkersQueue = LinkedList(initHolidayWorkers)
     private var currentWorker = ""
+
+    init {
+        initWorkers(initWeekDayWorkers)
+        initWorkers(initHolidayWorkers)
+    }
+
+    private fun initWorkers(initWorkers: List<String>) {
+        require(initWorkers.size == initWorkers.distinct().size) { Error.DUPLICATE.getMessage() }
+        require(initWorkers.size in 5..35) { Error.WORKERS_COUNT.getMessage() }
+        initWorkers.forEach { require(it.length <= 5) { Error.WORKER_NAME_LENGTH.getMessage() } }
+    }
 
     fun getWorker(isDayOff: Boolean): String {
         if (isDayOff) {
