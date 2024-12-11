@@ -6,12 +6,10 @@ class OnCallController {
     private val outputView = OutputView()
 
     fun run() {
-        val (monthNumber, dayOfWeekUseName) = inputView.readMonthAndDayOfWeek()
+        val (monthNumber, dayOfWeekUseName) = retryInput { inputView.readMonthAndDayOfWeek() }
         val month = convertMonth(monthNumber)
         val startDayOfWeek = convertDayOfWeek(dayOfWeekUseName)
-        val weekDayWorkers = inputView.readWeekDayWorkers()
-        val holidayWorkers = inputView.readHolidayWorkers()
-        val workerService = WorkerService(weekDayWorkers, holidayWorkers)
+        val workerService = retryInput { WorkerService(inputView.readWeekDayWorkers(), inputView.readHolidayWorkers()) }
         val workScheduleService = WorkScheduleService(month, startDayOfWeek)
         val emergencyDays = workScheduleService.getEmergencyDays(month, workerService)
         outputView.printEmergencySchedule(month, emergencyDays)
