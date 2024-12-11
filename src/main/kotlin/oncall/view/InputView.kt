@@ -1,15 +1,12 @@
 package oncall.view
 
 import camp.nextstep.edu.missionutils.Console
-import oncall.common.DayOfWeek
-import oncall.common.Error
-import oncall.common.Guide
-import oncall.common.Month
+import oncall.common.*
 
 class InputView {
     fun readMonthAndDayOfWeek(): Pair<Int, String> {
         print(Guide.READ_MONTH_AND_DAT_OF_WEEK.message)
-        val input = Console.readLine().split(",")
+        val input = Console.readLine().split(DEFAULT_SEPARATOR)
         require(input.size == 2) { Error.FORMAT.getMessage() }
         val (monthInput, dayOfWeek) = input
         val month = requireNotNull(monthInput.toIntOrNull()) { Error.MONTH.getMessage() }
@@ -20,7 +17,7 @@ class InputView {
 
     fun readWorkers(guideMessage: String): List<String> {
         print(guideMessage)
-        val workersName = Console.readLine().split(",")
+        val workersName = Console.readLine().split(DEFAULT_SEPARATOR)
         return workersName
     }
 }
