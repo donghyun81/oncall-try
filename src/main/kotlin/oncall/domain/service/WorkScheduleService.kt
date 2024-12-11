@@ -3,6 +3,7 @@ package oncall.domain.service
 import oncall.common.DayOfWeek
 import oncall.model.EmergencyDay
 import oncall.common.Month
+import oncall.common.NEXT_INDEX
 import oncall.common.PublicHolidays
 
 class WorkScheduleService(private val month: Month, private val startDayOfWeek: DayOfWeek) {
@@ -21,13 +22,13 @@ class WorkScheduleService(private val month: Month, private val startDayOfWeek: 
     }
 
     private fun moveNextDayOfWeek() {
-        val nextDayOfWeekIndex = (DayOfWeek.entries.indexOfFirst { it == currentDayOfWeek } + 1) % 7
+        val dayOfWeeks = DayOfWeek.entries
+        val nextDayOfWeekIndex = (dayOfWeeks.indexOfFirst { it == currentDayOfWeek } + NEXT_INDEX) % dayOfWeeks.size
         currentDayOfWeek = DayOfWeek.entries[nextDayOfWeekIndex]
     }
 
     private fun isDayOff(monthNumber: Int, day: Int): Boolean {
-        val holiday = DayOfWeek.entries.subList(5, 7)
-        val isHoliday = currentDayOfWeek in holiday
+        val isHoliday = currentDayOfWeek == DayOfWeek.SATURDAY || currentDayOfWeek == DayOfWeek.SUNDAY
         val isPublicHoliday = isPublicHoliday(monthNumber, day)
         return isHoliday || isPublicHoliday
     }
