@@ -9,15 +9,27 @@ class WorkerService(
 
     private val weekDayWorkersQueue = LinkedList(weekDayWorkers)
     private val holidayWorkersQueue = LinkedList(holidayWorkers)
+    private var currentWorker = ""
 
     fun getWorker(isDayOff: Boolean): String {
         if (isDayOff) {
-            val worker = holidayWorkersQueue.poll()
+            val worker = extractWorker(holidayWorkersQueue)
             holidayWorkersQueue.add(worker)
             return worker
         }
-        val worker = weekDayWorkersQueue.poll()
+        val worker = extractWorker(weekDayWorkersQueue)
         weekDayWorkersQueue.add(worker)
+        return worker
+    }
+
+    private fun extractWorker(workers: LinkedList<String>): String {
+        if (currentWorker == workers.peek()) {
+            val worker = workers.removeAt(1)
+            currentWorker = worker
+            return worker
+        }
+        val worker = workers.poll()
+        currentWorker = worker
         return worker
     }
 }
