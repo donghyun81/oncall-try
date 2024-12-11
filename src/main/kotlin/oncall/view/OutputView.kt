@@ -1,4 +1,7 @@
-package oncall
+package oncall.view
+
+import oncall.common.Month
+import oncall.model.EmergencyDay
 
 class OutputView {
     fun printEmergencySchedule(month: Month, emergencyDays: List<EmergencyDay>) {

@@ -1,4 +1,4 @@
-package oncall
+package oncall.common
 
 enum class DayOfWeek(val useName: String) {
     MONDAY("월"),

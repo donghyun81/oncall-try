@@ -1,4 +1,4 @@
-package oncall
+package oncall.utils
 
 fun <T> retryInput(runInput: () -> T): T {
     while (true) {

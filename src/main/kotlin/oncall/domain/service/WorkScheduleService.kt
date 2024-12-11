@@ -1,4 +1,9 @@
-package oncall
+package oncall.domain.service
+
+import oncall.common.DayOfWeek
+import oncall.model.EmergencyDay
+import oncall.common.Month
+import oncall.common.PublicHolidays
 
 class WorkScheduleService(private val month: Month, private val startDayOfWeek: DayOfWeek) {
     private var currentDayOfWeek = startDayOfWeek

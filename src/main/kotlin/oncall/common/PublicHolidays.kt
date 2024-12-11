@@ -1,4 +1,4 @@
-package oncall
+package oncall.common
 
 enum class PublicHolidays(val month: Int, val day: Int) {
     NEW_YEAR_DAY(1, 1),

@@ -1,4 +1,4 @@
-package oncall
+package oncall.domain.service
 
 import java.util.LinkedList
 

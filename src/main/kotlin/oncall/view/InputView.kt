@@ -1,6 +1,9 @@
-package oncall
+package oncall.view
 
 import camp.nextstep.edu.missionutils.Console
+import oncall.common.DayOfWeek
+import oncall.common.Error
+import oncall.common.Month
 
 class InputView {
     fun readMonthAndDayOfWeek(): Pair<Int, String> {
