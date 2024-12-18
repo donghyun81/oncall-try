@@ -16,13 +16,13 @@ class OnCallController {
     private val outputView = OutputView()
 
     fun run() {
-        val (monthNumber, dayOfWeekUseName) = retryInput { inputView.readMonthAndDayOfWeek() }
+        val (monthNumber, dayOfWeekUseName) = retryInput(printErrorMessage = outputView::printError) { inputView.readMonthAndDayOfWeek() }
         val month = convertMonth(monthNumber)
         val startDayOfWeek = convertDayOfWeek(dayOfWeekUseName)
         val workerService = getWorkerService()
         val workScheduleService = WorkScheduleService(month, startDayOfWeek)
         val emergencyDays = workScheduleService.getEmergencyDays(month, workerService)
-        outputView.printEmergencySchedule(month, emergencyDays)
+        outputView.printEmergencySchedule(workScheduleService.month, emergencyDays)
     }
 
     private fun convertMonth(monthNumber: Int): Month {
@@ -35,7 +35,7 @@ class OnCallController {
         return requireNotNull(dayOfWeek) { Error.DAY_OF_WEEK.getMessage() }
     }
 
-    private fun getWorkerService() = retryInput {
+    private fun getWorkerService() = retryInput(printErrorMessage = outputView::printError) {
         WorkerService(
             inputView.readWorkers(Guide.READ_WEEKDAY_WORKERS.message),
             inputView.readWorkers(Guide.READ_HOLIDAY_WORKER.message)

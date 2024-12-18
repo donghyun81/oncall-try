@@ -1,11 +1,11 @@
 package oncall.utils
 
-fun <T> retryInput(runInput: () -> T): T {
+fun <T> retryInput(printErrorMessage: (String?) -> Unit, runInput: () -> T): T {
     while (true) {
         try {
             return runInput()
         } catch (e: IllegalArgumentException) {
-            println(e.message)
+            printErrorMessage(e.message)
         }
     }
 }

@@ -6,7 +6,7 @@ import oncall.common.Month
 import oncall.common.NEXT_INDEX
 import oncall.common.PublicHolidays
 
-class WorkScheduleService(private val month: Month, private val startDayOfWeek: DayOfWeek) {
+class WorkScheduleService(val month: Month, private val startDayOfWeek: DayOfWeek) {
     private var currentDayOfWeek = startDayOfWeek
 
     fun getEmergencyDays(month: Month, workerService: WorkerService): List<EmergencyDay> {

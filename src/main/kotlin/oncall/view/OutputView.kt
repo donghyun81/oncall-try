@@ -13,4 +13,8 @@ class OutputView {
             println("${month.number}월 ${emergencyDay.day}일 ${emergencyDay.dayOfWeek.useName} ${emergencyDay.worker}")
         }
     }
+
+    fun printError(message: String?) {
+        println(message)
+    }
 }
